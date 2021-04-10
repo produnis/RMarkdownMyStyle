@@ -29,6 +29,11 @@ https://github.com/produnis/RMarkdownMyStyle
 ## Vorwarnung
 
 Diese Anleitung setzt voraus, dass Sie Ihre Briefe und Rechnungen bereits in `LaTeX` schreiben, bzw, dass eine Brief- oder Rechnungsvorlage in `LaTeX` vorliegt. In diesem Tutorial möchte ich zeigen, wie Sie Ihre `LaTeX`-Vorlagen als `Templates` in `RMarkdown` verfügbar machen können, um die Briefe im `PDF`-Format zu erzeugen. Das heisst, dass letztendlich Ihr `RMarkdown` wieder über `LaTeX` nach `PDF` kompiliert wird. `LaTeX` muss also installiert sein, und Sie müssen das gewünschte Layout bereits in `LaTeX` erstellt haben.
+Ebenso muss das `bookdown`-Paket installiert sein.
+```{r eval =F}
+install.packages("bookdown")
+```
+
 
 Die Überführung nach `Rmarkdown`geht am einfachsten, indem man sie als `Templates` in einem eigenen `R`-Paket abpeichert.
 
