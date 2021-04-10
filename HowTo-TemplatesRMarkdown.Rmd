@@ -24,6 +24,10 @@ Im Dezember habe ich dann dieses Video von Rob Hyndman gesehen:
 
 ...und dachte mir: das will ich auch!
 
+Zu dieser Anleitung gibt es ein Github-Repo mit dem Paket und dieser Anleitung.
+https://github.com/produnis/RMarkdownMyStyle
+
+
 ## Vorwarnung
 
 Diese Anleitung setzt voraus, dass Sie Ihre Briefe und Rechnungen bereits in `LaTeX` schreiben, bzw, dass eine Brief- oder Rechnungsvorlage in `LaTeX` vorliegt. In diesem Tutorial möchte ich zeigen, wie Sie Ihre `LaTeX`-Vorlagen als `Templates` in `RMarkdown` verfügbar machen können, um die Briefe im `PDF`-Format zu erzeugen. Das heisst, dass letztendlich Ihr `RMarkdown` wieder über `LaTeX` nach `PDF` kompiliert wird. `LaTeX` muss also installiert sein, und Sie müssen das gewünschte Layout bereits in `LaTeX` erstellt haben.
@@ -76,7 +80,7 @@ hello()
 Immer dann, wenn Sie dem Paket neue Funktionen (oder Templates) hinzugefügt haben, können Sie es durch Klick auf `Install and Restart` aktualisieren.
 
 
-## Ein Template anlegen
+## Ein Template für Briefe anlegen
 
 Templates für` RMarkdown` müssen innerhalb des Pakets im Ordner `inst/rmardown/templates/` vorliegen.
 Jedes Template erhält einen eigenen Unterordner, in welchem die erforderlichen Dateien abgelegt sind. Auch hier folgend die Dateien einer gewissen Struktur. 
@@ -472,6 +476,7 @@ file.edit("R/formats.R")
 
 Sie erhält folgenden Inhalt:
 ```{r}
+# mache output "meinbrief" verfügbar
 meinbrief <- function(...) {
   template <- system.file("rmarkdown/templates/meinbrief/resources/meinbrief.tex",
                           package="MyStyle")
@@ -481,18 +486,21 @@ meinbrief <- function(...) {
 }
 ```
 
+Wie Sie sehen, verwenden wir `bookdown::pdf_document2` als Ausgabe.
 
 
 ### Ausgabe kontrollieren
 
-Jetzt können wir das Paket neu bauen und installieren indem wir
+Jetzt können wir das Paket neu bauen und installieren, indem wir
 `Install and Restart` klicken. 
 
 ![(#fig:build)Reiter `Build`](images/RStudio03b.png){width="400"}
 
 
 Wenn alles korrekt eingetragen wurde, können wir nun unsere Beispieldatei `skeleton.Rmd` knitten. Das erzeugt eine PDF-Datei
-im Unterordner `skeleton` (weil `skeleton.Rmd` dort liegt). Überprüfen Sie, ob alles so aussieht, wie Sie möchten. Ist alles gut, entfernen Sie die `PDF`-Datei und bauen Sie das Paket nocheinmal neu. Fertig.
+im Unterordner `skeleton` (weil `skeleton.Rmd` dort liegt). Überprüfen Sie, ob alles so aussieht, wie Sie möchten. Ist alles gut, entfernen Sie die `PDF`-Datei und bauen Sie das Paket nocheinmal neu. 
+
+**Fertig**.
 
 
 # Paket als Vorlage nutzen
@@ -514,3 +522,6 @@ Dort steht nun `meinBrief` zur Auswahl. Wenn Sie auf `OK` klicken, erhalten Sie 
 - https://bookdown.org/yihui/rmarkdown/template-structure.html
 
 - https://www.produnis.de/R
+
+- https://github.com/produnis/RMarkdownMyStyle
+
