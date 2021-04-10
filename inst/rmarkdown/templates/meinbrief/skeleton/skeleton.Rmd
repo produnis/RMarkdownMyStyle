@@ -1,0 +1,26 @@
+---
+title: "Template Title"
+author: "Your Name"
+date: "The Date"
+myFirstname: Timm
+myFamilyname: Thaler
+myStreet: Absenderstr. 7
+myTown: 47325 Schickensen
+myGrade: Prof. Dr.
+myTelefon: +49 176 555 984 66
+myMail: timm@thaler.de
+myBank: ING DiBa
+myIBAN: DE06 505 165 55 5555 4312 64
+Betreff: Dies ist der Betreff
+myAktenzeichen: 2021-XY
+anName: Andrea Empfängerin
+anZusatz: Schloss Schalkenstein
+anStrasse: Adressatenstr. 23
+anOrt: 22204 Briefkasten
+opening: Sehr geehrte Frau Empfängerin
+closing: Mit freundlichen Grüßen
+output: MyStyle::meinbrief
+---
+
+dies ist ein Testbrief, um zu schauen, ob es auch in `RMarkdown` funktioniert.
+

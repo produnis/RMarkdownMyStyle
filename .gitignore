@@ -1,0 +1,12 @@
+.Rproj.user
+.Rbuildignore
+.Rhistory
+.RData
+.Ruserdata
+*.aux
+*.toc
+*.log
+*.idx
+*.ilg
+*.ind
+*.html
