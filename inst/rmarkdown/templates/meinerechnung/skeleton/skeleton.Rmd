@@ -1,0 +1,45 @@
+---
+title: "Template Title"
+author: "Your Name"
+date: "The Date"
+myFirstname: Timm
+myFamilyname: Thaler
+myStreet: Absenderstr. 7
+myTown: 47325 Schickensen
+myGrade: Prof. Dr.
+myTelefon: +49 176 555 984 66
+myMail: timm@thaler.de
+myBank: ING DiBa
+myIBAN: DE06 505 165 55 5555 4312 64
+myStrNr: 313/5555/123
+Betreff: RECHNUNG
+myRechnungsnummer: 2021-4
+anName: Andrea Empfängerin
+anZusatz: Schloss Schalkenstein
+anStrasse: Adressatenstr. 23
+anOrt: 22204 Briefkasten
+opening: Sehr geehrte Frau Empfängerin
+closing: Mit freundlichen Grüßen
+output: MyStyle::meinerechnung
+---
+
+
+für die erbrachten Leistungen erlaube ich mir wie folgt in Rechnung zu stellen:
+
+
+
+|  **Datum** |                 **Posten**                          | **Betrag**|
+|------------|-----------------------------------------------------|----------:|
+| 29.06.2021 | Zauberschow für Kinder in der KiTa Regenbogenland   |     300,01|
+|            |                                                     |           |
+|            |                                         Nettobetrag |     300,01|
+|            |                      Umsatzsteuerfrei gem. §19 UstG |       0,00|
+|            |                                    **Gesamtbetrag**:| **300,01**|
+
+
+
+
+Bitte überweisen Sie den Betrag unter Angabe der Rechnungsnummer auf mein Konto bei der ING DiBa
+mit der IBAN *DE06 505 165 55 5555 4312 64*.
+
+Ich bedanke mich für Ihren Auftrag und verbleibe

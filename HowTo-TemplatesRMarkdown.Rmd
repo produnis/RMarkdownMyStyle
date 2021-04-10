@@ -20,11 +20,9 @@ Im Dezember habe ich dann dieses Video von Rob Hyndman gesehen:
 
 <https://www.youtube.com/watch?v=_D-ux3MqGug>
 
-<https://robjhyndman.com/seminars/rmarkdown/>
-
 ...und dachte mir: das will ich auch!
 
-Zu dieser Anleitung gibt es ein Github-Repo mit dem Paket und dieser Anleitung.
+Zu dieser Anleitung gibt es ein Github-Repo mit dem Template-Paket und der Rmd-Datei dieser Anleitung: 
 https://github.com/produnis/RMarkdownMyStyle
 
 
@@ -45,7 +43,7 @@ Wählen Sie `R Package` aus.
 
 <br>
 
-Geben Sie dem Paket einen Namen, z.B. `MyStyle`, und klicke auf `Create Project...`
+Geben Sie dem Paket einen Namen, z.B. `MyStyle`, und klicken Sie auf `Create Project...`
 
 ![(#fig:rs02)Packagenamen wählen](images/RStudio02.png){width="400"}
 
@@ -119,7 +117,7 @@ Wenn wir unser Template später in `RStudio` aus den Vorlagen auswählen, dann w
 Nehmen wir als Beispiel die folgende LaTeX-Vorlage für einen Brief.
 Das Beispiel ist lauffähig, wenn Sie eine Bilddatei mit dem Namen `Unterschrift.png` im selben Verzeichnis liegen haben.
 
-```{latex}
+```{tex}
 \documentclass[DIN,
     fontsize=11pt,          % fontsize
     paper=a4,               % page size a4
@@ -292,12 +290,13 @@ output: output_format
 In der Kopfzeile werden Variablen vergeben. So hat z.B. Variable `title` derzeit den Wert `Template Title`,
 und `date` hat den Wert `The Date`.
 
-Wir können uns dies zu nutze machen. In unserem LaTeX-Code sind all diese Variablen referenzierbar, wenn wir ihren Namen in Dollarzeichen einrahmen, also z.B. `$title$`.
+Wir können uns dies zu nutze machen. In unserem LaTeX-Code sind all diese Variablen referenzierbar, wenn wir ihren Namen in Dollarzeichen einrahmen, also z.B. `$title$`. 
+Wir können im Kopfbereich beliebige neue Variablen erzeugen und diese dann innerhalb der `LaTeX`-Vorlage nutzen.
 
 Wir gehen also in die Datei `meinbrief.tex`, und ändern dort alle *hardgecodeten* Angaben (Name, Adresse, Telefonnummer, usw) in Variablen um. Diese Variablen tragen wir ebenfalls in die Datei `skeleton.Rmd` ein und hinterlegen dort die Werte.
 
 Die Datei `meinbrief.tex` sieht danach z.B. so aus:
-```{latex}
+```{tex}
 \documentclass[DIN,
     fontsize=11pt,          % fontsize
     paper=a4,               % page size a4
@@ -466,7 +465,7 @@ Als letzte Angabe im Kopfbereich wird der output auf unser Template `meinbrief` 
 
 ### Ausgabeformat bereitstellen
 
-Jetzt sind wir fast schon fertig. Wir müssen noch das eben angegebene Ausgabeformat `meinbrief` verfügbar machen.
+Jetzt sind wir fast schon fertig. Wir müssen noch das eben angegebene Ausgabeformat `MyStyle::meinbrief` verfügbar machen.
 Hierzu erstellen wir im Paketordner "`R`" die Datei `formats.R`. Sie wird bei der Aktivierung des Paketes automatisch ausgeführt und soll das Ausgabgeformat bereitstellen.
 
 ```{r eval=F}
@@ -486,7 +485,7 @@ meinbrief <- function(...) {
 }
 ```
 
-Wie Sie sehen, verwenden wir `bookdown::pdf_document2` als Ausgabe.
+Wie Sie sehen, verwenden wir letztendlich `bookdown::pdf_document2` als Ausgabe.
 
 
 ### Ausgabe kontrollieren
@@ -515,9 +514,311 @@ Dort steht nun `meinBrief` zur Auswahl. Wenn Sie auf `OK` klicken, erhalten Sie 
 
 <br>
 
+# weitere Templates erstellen
+
+Auf diese Weise können wir beliebig weiterte Templates erstellen. Rob Hyndman hat für seine Fakultät z.B. Vorlagen für Abschlussarbeiten, Berichte und Klausuren erstellt, siehe https://github.com/robjhyndman/MonashEBSTemplates
+
+Wir erzeugen in dieser Anleitung noch eine Vorlage für Rechnungen.
+
+## Vorlage für Rechnungen erzeugen
+
+Für die Rechnungen-Vorlage bedienen wir uns bei unserem Brief und passen einige wenige Felder an.
+
+Zunächst erzeugen wir wieder die Grundstruktur des Templates, welches diesmal `meineRechnung` heissen soll.
+
+```{r eval=F}
+usethis::use_rmarkdown_template(
+  template_name = "meineRechnung",
+  template_dir = NULL,
+  template_description = "Meine private Rechnungsvorlage",
+  template_create_dir = FALSE
+)
+```
+
+In den Ordner `inst/markdown/templates/meinerechnung/skeleton/` kopieren wir zunächst die Datei `Unterschrift.png`. Dann öffnen wir die Datei `skeleton.Rmd` und entfernen alles bis auf den Kopfbereich.
+```{yaml}
+---
+title: "Template Title"
+author: "Your Name"
+date: "The Date"
+output: output_format
+---
+```
+
+
+Jetzt erstellen wir den Unterordner `inst/markdown/templates/meinerechnung/resources/` und darin die Datei `meinerechnung.tex`.
+
+Die Datei öffnen wir nun, und kopieren den Inhalt unserer Brief-Vorlage hinein.
+```{r eval=F}
+file.edit("inst/markdown/templates/meinerechnung/resources/meinerechnung.tex")
+# kopiere nun den LaTeX Code hierhin.
+```
+<br>
+
+Jetzt nehmen wir einige Anpassungen vor, z.B. ersetzen wir das alte Aktenzeichen durch eine Rechnungsnummer. Auch fügen wir unsere Steuernummer hinzu.
+
+Die LaTeX-Datei sieht danach so aus:
+```{tex}
+\documentclass[DIN,
+    fontsize=11pt,          % fontsize
+    paper=a4,               % page size a4
+    firsthead=on,           % display header on first page
+    firstfoot=on,           % display footer on first page
+    pagenumber=off,         % position of the page number
+    parskip=half,           % Use indent instead of skip, half, false
+    enlargefirstpage=on,    % more space on first page
+    fromalign=locationright, % placement of name in letter head
+    addrfield=on,           % address field for envelope with window, on or true
+    subject=titled,         % placement of subject, beforeopening or titled
+    foldmarks=on,          % print foldmarks
+    numericaldate=off,      % display date in numbers only
+    KOMAold]{scrlttr2}
+\usepackage[T1]{fontenc}
+\usepackage[dvips]{graphicx}
+\usepackage[ngerman]{babel}
+\usepackage{lipsum}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+% \usepackage{lmodern}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{lastpage}
+\usepackage[rgb]{xcolor}
+\usepackage{hyperref}
+\hypersetup{%
+    pdfborder=0 0 0,
+    pdfauthor={},
+    pdftitle={},
+    pdfsubject={},
+    pdfkeywords={},
+    pdfpagemode={UseOutlines},
+    bookmarksopen,
+    pdfstartview={FitH},
+    colorlinks,
+    linkcolor={black},
+    citecolor={black},
+    urlcolor={blue}
+  }
+
+\urlstyle{same}
+
+% Randbereiche mit geometry
+\usepackage{geometry}
+\geometry{a4paper,left=25mm,right=20mm}
+
+\usepackage{lastpage} % letzte Seite anzeigen
+\usepackage{marvosym}
+\usepackage{blindtext}
+
+% speichere eigene Variablen für Werte, die häufig drankommen
+\newcommand{\myFirstname}{$myFirstname$}
+\newcommand{\myFamilyname}{$myFamilyname$}
+\newcommand{\myStreet}{$myStreet$}
+\newcommand{\myTown}{$myTown$}
+
+% ---Angaben für das Absenderfeld--------
+\setkomavar{fromname}{\flushright\normalfont\textbf{\myFirstname\ \myFamilyname}}
+\setkomavar{signature}{\myFirstname\ \myFamilyname}
+\setkomavar{fromaddress}{\flushright\normalfont\scriptsize%
+$myGrade$ \myFirstname\ \myFamilyname\\
+\myStreet\\\myTown\\%
+$myTelefon$\\%
+$myMail$\\[2mm]
+$myBank$\\
+$myIBAN$\\
+Str-Nr. $myStrNr$\\[2mm]
+Rechnungsnummer:\quad\ $myRechnungsnummer$\\
+\setkomavar{date}{\today} %datum im Absenderfeld
+Datum:\quad \today}
+%---------------------------------------
+\renewcommand*\familydefault{\sfdefault}
+
+% Anordnung im Absenderfeld
+\setkomavar{firsthead}{}
+\setkomavar{location}{%
+  \raggedleft
+  \usekomavar{fromname}\\
+  \usekomavar{fromaddress}
+}
+
+% Absender auch über dem Empfängeradressfeld
+\setkomavar{backaddress}{\myFamilyname\ | \myStreet\ | \myTown}
+
+% signatur mit Unterschrift
+\setkomavar{signature}{\includegraphics[width=25mm]{Unterschrift.png}\\\myFirstname\ \myFamilyname}
+%
+% --------------kopf/fusszeile----------------
+\usepackage{scrlayer-scrpage}
+\clearmainofpairofpagestyles
+\cfoot{\flushright\scriptsize\normalfont Seite \thepage\ von \pageref{LastPage} }
+\RedeclarePageStyleAlias{empty}{scrheadings}
+%----------------------------------------------
+%
+\setkomavar{date}{} % Datum wieder löschen
+\setkomavar{subject}{$Betreff$}
+\setlength{\parindent}{0pt}
+
+% positionierung von Absender und Empfängerboxen
+\makeatletter
+  \@setplength{backaddrheight}{0pt}% because backaddress=off
+  \@setplength{toaddrhpos}{2.5cm}%distance from left
+  \@setplength{toaddrvpos}{5cm}%distance from top
+  \@setplength{toaddrheight}{3.5cm}%height of the addressbox
+  \@setplength{toaddrwidth}{10cm}% width of the addressbox
+  \@addtoplength{locwidth}{45mm} % width of ABSENDERbox
+  \@setplength{lochpos}{2cm}%distance from top
+  \@setplength{locvpos}{32mm}%distance from top
+  \@setplength{refvpos}{9cm}% Abstand des Haupttextes von top
+\makeatother
+%------------------------------------------------------------------------------------
+
+\begin{document}
+%
+\begin{letter}{$anName$\\
+$anZusatz$\\
+$anStrasse$\\
+$anOrt$
+}
+%
+\opening{$opening$,}
+%
+$body$
+
+\closing{$closing$,
+}
+\end{letter}
+\end{document}
+```
+
+
+Die Variablen übertragen wir in die Datei `skeleton.Rmd`, die dann so aussieht:
+```{yaml}
+---
+title: "Template Title"
+author: "Your Name"
+date: "The Date"
+myFirstname: Timm
+myFamilyname: Thaler
+myStreet: Absenderstr. 7
+myTown: 47325 Schickensen
+myGrade: Prof. Dr.
+myTelefon: +49 176 555 984 66
+myMail: timm@thaler.de
+myBank: ING DiBa
+myIBAN: DE06 505 165 55 5555 4312 64
+myStrNr: 313/5555/123
+Betreff: RECHNUNG
+myRechnungsnummer: 2021-4
+anName: Andrea Empfängerin
+anZusatz: Schloss Schalkenstein
+anStrasse: Adressatenstr. 23
+anOrt: 22204 Briefkasten
+opening: Sehr geehrte Frau Empfängerin
+closing: Mit freundlichen Grüßen
+output: MyStyle::meinerechnung
+---
+```
+
+
+Um das Ergebnis testen zu können, müssen wir das Ausgabeformat `MyStyle::meinerechnung` verfügbar machen.
+Hierfür ergänzen wir im Unterordner `R` in der Datei `formats.R` wie folgt:
+```{r eval=F}
+# mache output "meinbrief" verfügbar
+meinbrief <- function(...) {
+  template <- system.file("rmarkdown/templates/meinbrief/resources/meinbrief.tex",
+                          package="MyStyle")
+  bookdown::pdf_document2(...,
+                          template = template
+  )
+}
+
+# mache output "meinerechnung" verfügbar
+meinerechnung <- function(...) {
+  template <- system.file("rmarkdown/templates/meinerechnung/resources/meinerechnung.tex",
+                          package="MyStyle")
+  bookdown::pdf_document2(...,
+                          template = template
+  )
+}
+```
+
+Wenn Sie jetzt das Paket neu bauen und installieren, sollte das knitten der Datei `skeleton.Rmd` schon funktionieren, und eine PDF-Datei ausspucken.
+
+Die Rechnungsvorlage kann nun wie folgt erweitert werden:
+```{yaml}
+---
+title: "Template Title"
+author: "Your Name"
+date: "The Date"
+myFirstname: Timm
+myFamilyname: Thaler
+myStreet: Absenderstr. 7
+myTown: 47325 Schickensen
+myGrade: Prof. Dr.
+myTelefon: +49 176 555 984 66
+myMail: timm@thaler.de
+myBank: ING DiBa
+myIBAN: DE06 505 165 55 5555 4312 64
+myStrNr: 313/5555/123
+Betreff: RECHNUNG
+myRechnungsnummer: 2021-4
+anName: Andrea Empfängerin
+anZusatz: Schloss Schalkenstein
+anStrasse: Adressatenstr. 23
+anOrt: 22204 Briefkasten
+opening: Sehr geehrte Frau Empfängerin
+closing: Mit freundlichen Grüßen
+output: MyStyle::meinerechnung
+---
+
+
+für die erbrachten Leistungen erlaube ich mir wie folgt in Rechnung zu stellen:
+
+
+
+|  **Datum** |                 **Posten**                          | **Betrag**|
+|------------|-----------------------------------------------------|----------:|
+| 29.06.2021 | Zauberschow für Kinder in der KiTa Regenbogenland   |     300,01|
+|            |                                                     |           |
+|            |                                         Nettobetrag |     300,01|
+|            |                      Umsatzsteuerfrei gem. §19 UstG |       0,00|
+|            |                                    **Gesamtbetrag**:| **300,01**|
+
+
+
+
+Bitte überweisen Sie den Betrag unter Angabe der Rechnungsnummer auf mein Konto bei der ING DiBa
+mit der IBAN *DE06 505 165 55 5555 4312 64*.
+
+Ich bedanke mich für Ihren Auftrag und verbleibe
+```
+
+
+Wenn Sie jetzt knitten, sieht die PDF-Datei so aus:
+
+![(#fig:latex3)fertiges PDF-Dokument](images/LaTeX-PDF2.png){width="800"}
+
+Jetzt können Sie noch weitere Anpassungen vornehmen. Wenn Sie fertig sind, entfernen Sie die PDF-Datei und bauen und installieren Sie das Paket neu. Ab jetzt steht es in `RStudio` als Vorlage zur Verfügung.
+
+Klicken Sie auf `File` $\rightarrow$ `New File`  $\rightarrow$ `RMarkdown` und wählen Sie "From Template".
+
+![(#fig:rs06)Vorlagen](images/RStudio06.png){width="500"}
+
+# noch mehr Templates
+
+Noch weitere Templates bietet unter anderem das `R`-Paket `rticles`.
+```{r eval=F}
+install.packages("rticles")
+```
+
+Nach einem Neustart von RStudio stehen die Templates bereit.
+
+
 # Weiterführende Links
 
 - https://robjhyndman.com/seminars/rmarkdown/
+
+- https://github.com/robjhyndman/MonashEBSTemplates
 
 - https://bookdown.org/yihui/rmarkdown/template-structure.html
 
