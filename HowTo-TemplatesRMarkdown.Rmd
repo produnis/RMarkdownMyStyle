@@ -3,7 +3,7 @@ title: "Templates für Briefe und Rechnungen in RMarkdown erstellen"
 author: "Jörg große Schlarmann"
 date: "09.04.2021"
 output: 
-  html_document:
+  bookdown::html_document2:
     theme: flatly #cerulean, journal, flatly, darkly, readable, spacelab, united, cosmo, lumen, paper, sandstone, simplex, and yeti.
     higlight: kate
 ---
@@ -12,7 +12,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Einleitung
+# Einleitung
 
 Ich nutze `RMarkdown` und `RStudio` schon seit längerem für statistische Auswertungen und Beispielrechnungen in der Lehre. Für meine Briefe und Rechnungen habe ich immer `LaTeX` verwendet.
 
@@ -31,19 +31,19 @@ Diese Anleitung setzt voraus, dass Sie Ihre Briefe und Rechnungen bereits in `La
 Die Überführung nach `Rmarkdown`geht am einfachsten, indem man sie als `Templates` in einem eigenen `R`-Paket abpeichert.
 
 
-## Ein eigenes `R`-Paket anlegen
+# Ein eigenes `R`-Paket anlegen
 
 Klicke in `RStudio` auf `File` $\rightarrow$ `New Project...`
 
 Wählen Sie `R Package` aus.
 
-![`R`-Package wählen](images/RStudio01.png){width="400"}
+![(#fig:rs01)`R`-Package wählen](images/RStudio01.png){width="400"}
 
 <br>
 
 Geben Sie dem Paket einen Namen, z.B. `MyStyle`, und klicke auf `Create Project...`
 
-![Packagenamen wählen](images/RStudio02.png){width="400"}
+![(#fig:rs02)Packagenamen wählen](images/RStudio02.png){width="400"}
 
 <br>
 
@@ -58,11 +58,11 @@ Das können wir direkt testen, indem wir das Paket "*bauen* und *installieren*".
 
 Klicken Sie im Datenfenster (rechter oberer Bereich) auf den Reiter `Build`.
 
-![Reiter `Build`](images/RStudio03a.png){width="400"}
+![(#fig:rs03a)Reiter `Build`](images/RStudio03a.png){width="400"}
 
 In diesem Bereich können Sie auf den Knopf `Install and Restart` klicken. 
 
-![Paket installieren](images/RStudio03b.png){width="400"}
+![(#fig:rs03b)Paket installieren](images/RStudio03b.png){width="400"}
 
 Dadurch wird Ihr neues Paket installiert und automatisch per `library(MyStyle)` geladen. Sie können nun alle Funktionen Ihres Pakets in der `R`-Konsole aufrufen. Probieren wir also die Dummy-Funktion `hello()` aus, die in der Datei `R/hello.R` hinterlegt ist:
 ```{r include=F}
@@ -248,7 +248,7 @@ Adressatenstr. 23\\
 
 Die Datei erzeugt folgendes PDF:
 
-![PDF-Version des Briefs](images/LaTeX-PDF1.png){width="800"}
+![(#fig:latex1)PDF-Version des Briefs](images/LaTeX-PDF1.png){width="800"}
 
 Den LaTeX-Code übertragen wir nun in unser Template. Hierfür muss im Ordner inst/markdown/templates/meinbrief der Unterordner 
 `resources` angelegt werden. In diesem erzeugen wir die Datei `meinbrief.tex` und kopieren den LaTeX-Code hinein.
@@ -259,7 +259,8 @@ file.edit("inst/markdown/templates/meinbrief/resources/meinbrief.tex")
 <br>
 
 Als nächstes kopieren wir die Bilddatei für die Unterschrift in den `skeleton`-Ordner. In unserem Beispiel heisst sie `Unterschrift.png`.
-![Datei `Unterschrift.png`](images/RStudio04.png){width="500"}
+
+![(#fig:rs04)Datei `Unterschrift.png`](images/RStudio04.png){width="500"}
 
 <br>
 
@@ -494,11 +495,11 @@ Wenn alles korrekt eingetragen wurde, können wir nun unsere Beispieldatei `skel
 im Unterordner `skeleton` (weil `skeleton.Rmd` dort liegt). Überprüfen Sie, ob alles so aussieht, wie Sie möchten. Ist alles gut, entfernen Sie die `PDF`-Datei und bauen Sie das Paket nocheinmal neu. Fertig.
 
 
-## Paket als Vorlage nutzen
+# Paket als Vorlage nutzen
 
 Ist das Paket installiert, steht das Template in RStudio zur Auswahl. Klicken Sie auf `File` $\rightarrow$ `New File`  $\rightarrow$ `RMarkdown` und wählen Sie "From Template".
 
-![](images/RStudio05.png){width="400"}
+![(#fig:rs05)Template auswählen](images/RStudio05.png){width="400"}
 
 
 Dort steht nun `meinBrief` zur Auswahl. Wenn Sie auf `OK` klicken, erhalten Sie den Beispielcode aus `skeleton.Rmd` sowie die Datei `Unterschrift.png`. Wenn Sie vergessen haben, die PDF-Datei Ihrer Testreihen zu entfernen, wird diese ebenfalls erzeugt.
@@ -507,6 +508,8 @@ Dort steht nun `meinBrief` zur Auswahl. Wenn Sie auf `OK` klicken, erhalten Sie 
 <br>
 
 # Weiterführende Links
+
+- https://robjhyndman.com/seminars/rmarkdown/
 
 - https://bookdown.org/yihui/rmarkdown/template-structure.html
 
