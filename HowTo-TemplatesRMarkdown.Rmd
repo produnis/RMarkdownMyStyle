@@ -25,6 +25,7 @@ Im Dezember habe ich dann dieses Video von Rob Hyndman gesehen:
 Zu dieser Anleitung gibt es ein Github-Repo mit dem Template-Paket und der Rmd-Datei dieser Anleitung: 
 https://github.com/produnis/RMarkdownMyStyle
 
+Außerdem ist der Arikel bei RPubs.com veröffentlicht, und dort etwas „hübscher“ dargestellt, siehe https://rpubs.com/produnis/RMarkdownTemplates.
 
 ## Vorwarnung
 
